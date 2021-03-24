@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React,{useState} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,6 +15,9 @@ import {
   Text,
   Button,
   StatusBar,
+  TextInput,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import {
@@ -25,59 +28,143 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
 
-  const [count, setCount] = useState(100);
 
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-            <Button title="+++" onPress={()=>setCount(count+1)} />
-              <Text style={styles.sectionTitle}>We are testing useState Hook = {count} </Text>
-            <Button title="---" onPress={()=>setCount(count-1)} />
+import * as firebaseObj from 'firebase';
+import {firebaseConfig} from './config';
 
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+if (!firebaseObj.apps.length){
+	firebaseObj.initializeApp(firebaseConfig);
+}
+
+class App extends Component{
+  constructor(props){
+    super(props);
+
+    this.state={
+      fname:'',
+      lname:'',
+      email:'',
+      phone:'',
+    }
+
+  }
+  componentDidMount(){
+    // Read Data
+  const myusers = firebaseObj.database().ref("users");
+  myusers.on("value",datasnap=>{ 
+	
+    console.log(datasnap.val());
+  
+  });
+
+  // Write Data
+
+  var newItem = {
+    id:12,
+    deptname:'CS1',
+    stdname:'Ali1',
+  }
+
+//   firebaseObj.database().ref('cities').once('value').then(function(snapshot) {
+//   snapshot.forEach(function(barberSnapshot) {
+//     barberSnapshot.child('queue').ref.push(newItem);
+//   });
+// });
+
+const dept = firebaseObj.database().ref("cities");
+  dept.push({
+    id:12,
+    deptname:'CS1',
+    stdname:'Ali1',
+  });
+
+
+  const classes = firebaseObj.database().ref("class");
+  classes.set({
+    classid:145,
+    class:'BSCS',
+  });
+
+  }
+  
+  onChangeTextFirstName = (text) =>{
+    this.setState({fname:text});
+  }
+
+  onChangeTextLastName = (text) =>{
+    this.setState({lname:text});
+  }
+
+  onChangeTextEmail = (text) =>{
+    // Alert.alert(text);
+    this.setState({email:text});
+  }
+
+  onChangeTextPhone = (text) =>{
+    this.setState({phone:text});
+  }
+
+  onPressButton = (text) =>{
+
+  const dept = firebaseObj.database().ref("register");
+  
+  dept.push({
+    fname:this.state.fname,
+    lname:this.state.lname,
+    email:this.state.email,
+    phone:this.state.phone,
+  });
+
+  }
+
+  render(){
+    return(
+      <View>
+        <Text> In The name of Allah </Text>
+
+      <TextInput
+        style={styles.input}
+        onChangeText={this.onChangeTextFirstName}
+        placeholder = "First Name"
+        placeholderTextColor = "#9a73ef"
+        autoCapitalize = "none"
+      />
+
+      <TextInput
+        style={styles.input}
+        onChangeText={this.onChangeTextLastName}
+        placeholder = "Last Name"
+        placeholderTextColor = "#9a73ef"
+        autoCapitalize = "none"
+      />
+      
+      <TextInput
+        style={styles.input}
+        onChangeText={this.onChangeTextEmail}
+        placeholder = "Email"
+        placeholderTextColor = "#9a73ef"
+        autoCapitalize = "none"
+      />
+
+      <TextInput
+        style={styles.input}
+        onChangeText={this.onChangeTextPhone}
+        placeholder = "Phone"
+        placeholderTextColor = "#9a73ef"
+        autoCapitalize = "none"
+      />
+
+      <TouchableOpacity
+          style = {{backgroundColor:'green'}}
+          onPress = {this.onPressButton}>
+        <Text> Submit </Text>
+      </TouchableOpacity>
+
+      </View>
+    );
+  };
+}
 
 const styles = StyleSheet.create({
   scrollView: {
