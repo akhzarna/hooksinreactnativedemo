@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "534887302385",
+    "project_id": "rncomsats",
+    "storage_bucket": "rncomsats.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534887302385:android:35a4feaed0c65f05329550",
+        "android_client_info": {
+          "package_name": "com.hooksinreactnativedemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534887302385-g8dgpoippt1rqigt20d33vm7c204f2ev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn6_ELWtZX_H3yMPjYN--n461TsHhstpQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534887302385-g8dgpoippt1rqigt20d33vm7c204f2ev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

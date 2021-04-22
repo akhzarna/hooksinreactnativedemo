@@ -28,14 +28,24 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+// import * as firebaseObj from 'firebase';
+// import {firebaseConfig} from './config';
+
+// if (!firebaseObj.apps.length){
+// 	firebaseObj.initializeApp(firebaseConfig);
+// }
 
 
-import * as firebaseObj from 'firebase';
-import {firebaseConfig} from './config';
 
-if (!firebaseObj.apps.length){
-	firebaseObj.initializeApp(firebaseConfig);
-}
+
+
+
+
+import firestore from '@react-native-firebase/firestore';
+
+
+
+
 
 class App extends Component{
   constructor(props){
@@ -46,45 +56,113 @@ class App extends Component{
       lname:'',
       email:'',
       phone:'',
+      test:'',
     }
 
   }
+
   componentDidMount(){
-    // Read Data
-  const myusers = firebaseObj.database().ref("users");
-  myusers.on("value",datasnap=>{ 
-	
-    console.log(datasnap.val());
   
+// const users = firestore()
+//   .collection('users')
+//   .get();
+// const user = firestore()
+//   .collection('users')
+//   .doc('ABC')
+//   .get();
+  
+// const usersCollection = firestore().collection('users');
+
+// const userDocument = firestore()
+//   .collection('users')
+//   .doc('ABC');
+
+//   // console.log(user);
+  
+
+
+
+
+
+
+
+
+
+
+
+  firestore()
+  .collection('abcdef')
+  .doc('XYZ')
+  .get()
+  .then(documentSnapshot => {
+    console.log('User exists: ', documentSnapshot.exists);
+    if (documentSnapshot.exists) {
+      console.log('User data: ', documentSnapshot.data());
+    }
   });
+
+
+
+
+
+
+
+
+
+
+  // firestore().collection("users").doc("qFNerrY0KbfH6bOPOAxW").get().onSnapshot(doc => {
+  //   console.log("I am not testing");
+  //   console.log(doc.data());
+  // });
+  
+
+    // Read Data
+  // const myusers = firebaseObj.database().ref("rasail");
+  // myusers.on("value",datasnap=>{ 
+    
+  //   console.log('Zad e Rah Data is =');
+  //   // console.log(datasnap.val());
+  //   console.log('New Data is =');
+  //   var arr = datasnap.val();
+  //   console.log(arr.data[0]);
+
+  //   this.setState({
+  //     test:datasnap.val(),
+  //   });
+  
+  // });
 
   // Write Data
 
-  var newItem = {
-    id:12,
-    deptname:'CS1',
-    stdname:'Ali1',
-  }
+  // ctrl + /
 
-//   firebaseObj.database().ref('cities').once('value').then(function(snapshot) {
-//   snapshot.forEach(function(barberSnapshot) {
-//     barberSnapshot.child('queue').ref.push(newItem);
-//   });
-// });
+// const dept = firebaseObj.database().ref("cities");
+//   dept.push(
+//     {
+//       "literature" : {
+//         "category" : "books",
+//         "data" : [{
+//             "author":"Khursheed"
+//         },
+//         {
+//             "author":"Khursheed"
+//         }
+//         ]
+//       }
+//     }
+//   );
 
-const dept = firebaseObj.database().ref("cities");
-  dept.push({
-    id:12,
-    deptname:'CS1',
-    stdname:'Ali1',
-  });
+  
+  
+  
+  
+  // const classes = firebaseObj.database().ref("classes");
+  // classes.set({
+  //   id:12,
+  //   classname:'CS1',
+  //   class:'Ali1',
+  // });
 
-
-  const classes = firebaseObj.database().ref("class");
-  classes.set({
-    classid:145,
-    class:'BSCS',
-  });
 
   }
   
@@ -97,7 +175,6 @@ const dept = firebaseObj.database().ref("cities");
   }
 
   onChangeTextEmail = (text) =>{
-    // Alert.alert(text);
     this.setState({email:text});
   }
 
@@ -107,9 +184,9 @@ const dept = firebaseObj.database().ref("cities");
 
   onPressButton = (text) =>{
 
-  const dept = firebaseObj.database().ref("register");
+  const register = firebaseObj.database().ref("register");
   
-  dept.push({
+  register.push({
     fname:this.state.fname,
     lname:this.state.lname,
     email:this.state.email,
@@ -121,23 +198,6 @@ const dept = firebaseObj.database().ref("cities");
   render(){
     return(
       <View>
-        <Text> In The name of Allah </Text>
-
-      <TextInput
-        style={styles.input}
-        onChangeText={this.onChangeTextFirstName}
-        placeholder = "First Name"
-        placeholderTextColor = "#9a73ef"
-        autoCapitalize = "none"
-      />
-
-      <TextInput
-        style={styles.input}
-        onChangeText={this.onChangeTextLastName}
-        placeholder = "Last Name"
-        placeholderTextColor = "#9a73ef"
-        autoCapitalize = "none"
-      />
       
       <TextInput
         style={styles.input}
