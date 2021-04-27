@@ -610,7 +610,6 @@ class App extends Component{
   // });
 
 
-  var count = ''+this.state.data.length;
 
 
   // firestore()
@@ -626,6 +625,11 @@ class App extends Component{
   // });
 
 
+  var count = ''+this.state.data.length;
+
+  if(this.state.fname.length>0){
+    if(this.state.lname.length>0){
+      if(this.state.email.length>0){
   firestore()
   .collection('comsatsusers')
   .doc(count)
@@ -640,8 +644,16 @@ class App extends Component{
   });
 
   this.callfunctiontopopulateFlatList();
-
+      }else{
+        Alert.alert('Email Cannot be empty');
+      }
+    }else{
+      Alert.alert('Last Name Cannot be empty');
+    }
+  }else{
+    Alert.alert('First Name Cannot be empty');
   }
+}
 
   callfunctiontopopulateFlatList = () =>{
   
