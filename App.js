@@ -42,8 +42,6 @@ import {
 
 
 
-
-
 import firestore from '@react-native-firebase/firestore';
 
 
@@ -54,7 +52,6 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 GoogleSignin.configure({
   webClientId: '534887302385-g8dgpoippt1rqigt20d33vm7c204f2ev.apps.googleusercontent.com',
 });
-
 
 
 // Phone Signed In
@@ -130,6 +127,8 @@ function SignIn() {
   );
 }
 
+
+
 class App extends Component{
   constructor(props){
     super(props);
@@ -157,8 +156,6 @@ class App extends Component{
     //   console.log('User updated!');
     // });
   
-    this.callfunctiontopopulateFlatList();
-
     // var newArray = [
     //   {key:0,fname:'akhzar',lname:'nazir',email:'link2akhzar@gmail.com'},
     //   {key:1,fname:'Akbar',lname:'Akhtar',email:'akbar@gmail.com'},
@@ -172,6 +169,11 @@ class App extends Component{
     //   {key:9,fname:'akhzar',lname:'nazir',email:'link2akhzar@gmail.com'},
     //   {key:10,fname:'Akbar',lname:'Akhtar',email:'akbar@gmail.com'},
     //   {key:11,fname:'akhzar',lname:'nazir',email:'link2akhzar@gmail.com'}];
+
+
+
+    // this.callfunctiontopopulateFlatList();
+
 
 // const users = firestore()
 //   .collection('users')
@@ -519,54 +521,60 @@ class App extends Component{
 
 
 
-  
-  // auth()
-  // .signInAnonymously()
-  // .then(() => {
-  //   console.log('User signed in anonymously');
+
+
+
+
+  // firebaseObj.auth().createUserWithEmailAndPassword('testuser1@gmail.com', '123456')
+  // .then((userCredential) => {
+  //   // Signed in 
+  //   // var user = userCredential.user;
+  //   // ...
+  //   Alert.alert('New User created Successfully');
   // })
-  // .catch(error => {
-  //   if (error.code === 'auth/operation-not-allowed') {
-  //     console.log('Enable anonymous in your firebase console.');
-  //   }
-  //   console.error(error);
+  // .catch((error) => {
+  //   var errorCode = error.code;
+  //   var errorMessage = error.message;
+  //   // ..
+  //   Alert.alert(errorMessage);
   // });
+
+
+
+  // firebaseObj.auth().onAuthStateChanged((user)=>{
+  //   if(user){
+
+  //     Alert.alert(user.uid);
     
+    
+  //   }else{
+
+  //     Alert.alert('User is not signed In');
+    
+  //   }
+  // });
+  
+
+  
+  
+  
+  // firebaseObj.auth().signOut().then(() => console.log('User signed out!'));
+  
 
 
-
-
-  // auth()
-  // .createUserWithEmailAndPassword('akhzar@gmail.com', 'SuperSecretPassword!')
-  // .then(() => {
-  //   console.log('User account created & signed in!');
+  // auth().signInWithEmailAndPassword('akhzar@gmail.com', '123456')
+  // .then((userCredential) => {
+  //   Alert.alert('Successfully Signed In');
+  //   // Signed in
+  //   // var user = userCredential.user;
+  //   // ...
   // })
-  // .catch(error => {
-  //   if (error.code === 'auth/email-already-in-use') {
-  //     console.log('That email address is already in use!');
-  //   }
-
-  //   if (error.code === 'auth/invalid-email') {
-  //     console.log('That email address is invalid!');
-  //   }
-
-  //   console.error(error);
+  // .catch((error) => {
+  //   var errorCode = error.code;
+  //   var errorMessage = error.message;
+  //   Alert.alert(errorMessage);
   // });
 
-
-
-
-  }
-
-  onGoogleButtonPress = async() => {
-    // Get the users ID token
-    const { idToken } = await GoogleSignin.signIn();
-  
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
   }
 
   
@@ -585,6 +593,83 @@ class App extends Component{
   // onChangeTextPhone = (text) =>{
   //   this.setState({phone:text});
   // }
+
+
+  onPressButtonGuestUser = () =>{
+
+  auth()
+  .signInAnonymously()
+  .then(() => {
+    console.log('User signed in anonymously');
+  })
+  .catch(error => {
+    if (error.code === 'auth/operation-not-allowed') {
+      console.log('Enable anonymous in your firebase console.');
+    }
+    console.error(error);
+  });
+
+  }
+
+  onPressButtoncreateUserWithEmailAndPassword = () =>{
+
+  auth()
+  .createUserWithEmailAndPassword('akhzar4@gmail.com', '123456')
+  .then(() => {
+    console.log('User account created & signed in!');
+  })
+  .catch(error => {
+    if (error.code === 'auth/email-already-in-use') {
+      console.log('That email address is already in use!');
+    }
+
+    if (error.code === 'auth/invalid-email') {
+      console.log('That email address is invalid!');
+    }
+
+    console.error(error);
+  });
+
+}
+
+onPressButtoncreateUserWithAlreadyCreatedUsers = () =>{
+
+  auth().signInWithEmailAndPassword('akhzar4@gmail.com', '123456')
+  .then((userCredential) => {
+    // Signed in
+    var user = userCredential.user;
+    console.log('Signed In User is = ',user.uid);
+    // ...
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
+
+}
+
+
+onPressSignOut = () =>{
+
+  auth().signOut().then(() => {
+    Alert.alert('Signed Out Successfully');
+  }).catch((error) => {
+    // An error happened.
+  });  
+
+}
+
+
+onGoogleButtonPress = async() => {
+  // Get the users ID token
+  const { idToken } = await GoogleSignin.signIn();
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential);
+}
 
   onPressButton = () =>{
 
@@ -630,6 +715,7 @@ class App extends Component{
   if(this.state.fname.length>0){
     if(this.state.lname.length>0){
       if(this.state.email.length>0){
+
   firestore()
   .collection('comsatsusers')
   .doc(count)
@@ -644,7 +730,8 @@ class App extends Component{
   });
 
   this.callfunctiontopopulateFlatList();
-      }else{
+
+}else{
         Alert.alert('Email Cannot be empty');
       }
     }else{
@@ -658,21 +745,24 @@ class App extends Component{
   callfunctiontopopulateFlatList = () =>{
   
   var newArray = [];
+
   firestore()
   .collection('comsatsusers')
   .get()
   .then(querySnapshot => {
     console.log('Total users: ', querySnapshot.size);
+    
     querySnapshot.forEach(documentSnapshot => {
       newArray.push(documentSnapshot.data());
     });
+
   }).then(testing=>{
     console.log('New Array Push is =', newArray);
     this.setState({data:newArray});
   });
 
 
-  // this.setState({data:newArray});
+    // this.setState({data:[]});
 
 
   }
@@ -711,16 +801,45 @@ class App extends Component{
         <Text> Submit </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+          style = {{backgroundColor:'yellow'}}
+          onPress = {this.onPressButtoncreateUserWithEmailAndPassword}>
+        <Text> Sign In and Create User Name and Password </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+          style = {{backgroundColor:'white'}}
+          onPress = {this.onPressButtoncreateUserWithAlreadyCreatedUsers}>
+        <Text> Sign In with Already Created Users </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+          style = {{backgroundColor:'green'}}
+          onPress = {this.onPressSignOut}>
+        <Text> Sign Out </Text>
+      </TouchableOpacity>
 
       <Button
       title="Google Sign-In"
       onPress={() => this.onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
     />
 
-      {/* <SignIn />
 
-      <PhoneSignIn />
- */}
+    <TouchableOpacity
+          style = {{backgroundColor:'white'}}
+          onPress = {this.onPressButtonGuestUser}>
+        <Text> Guest User </Text>
+    </TouchableOpacity>
+
+
+
+      <SignIn />
+
+
+
+
+      {/* <PhoneSignIn /> */}
+
 
 
       <FlatList
